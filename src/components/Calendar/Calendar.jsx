@@ -121,7 +121,7 @@ const Calendar = ({
     throw new Error(`Unsupported calendar type: ${calendarType}. Only 'gregorian' is supported.`);
   }
   if (weekStartDay < 0 || weekStartDay > 6) {
-    console.warn(`Invalid weekStartDay: ${weekStartDay}. Defaulting to 1 (Monday).`);
+    console.warn(`Invalid weekStartDay: ${weekStartDay}. Defaulting to 0 (Sunday).`);
     weekStartDay = 0;
   }
   const validDateFormats = ['mm/dd/yyyy', 'dd/mm/yyyy', 'yyyy-mm-dd', 'mm-dd-yyyy', 'dd-mm-yyyy'];

@@ -34,8 +34,10 @@ const MonthView = ({
   rangeLimit
 }) => {
   const weekdays = [];
-  const startDate = new Date(2024, 0, weekStartDay + 1); // January 2024, adjust for weekStartDay
-  
+  const startDate = new Date(date);
+  startDate.setDate(1); // Start from the 1st of the month
+  startDate.setDate(1 - (startDate.getDay() - weekStartDay + 7) % 7); // Align to weekStartDay
+
   for (let i = 0; i < 7; i++) {
     const day = new Date(startDate);
     day.setDate(startDate.getDate() + i);
@@ -58,7 +60,7 @@ const MonthView = ({
   const renderWeekNumbers = (weekDays) => {
     if (!showWeekNumbers) return null;
     
-    const weekNumber = getWeekNumber(weekDays[0]?.date || new Date());
+    const weekNumber = getWeekNumber(weekDays[0]?.date || new Date(date));
     return (
       <div 
         className="week-number"
@@ -72,9 +74,11 @@ const MonthView = ({
   };
 
   const renderDay = (dayObj, index) => {
-    const { date: dayDate, isCurrentMonth, isPreviousMonth, isNextMonth } = dayObj;
+    const { date: dayDate, isCurrentMonth, isPreviousMonth, isNextMonth, isPlaceholder } = dayObj;
+    if (!dayDate && isPlaceholder) return <div key={index} className="calendar-day placeholder" />;
+
     const isDisabled = tileDisabled?.(dayDate) || (!showNeighboringMonth && !isCurrentMonth);
-    const isToday = dayDate.toDateString() === today.toDateString();
+    const isToday = dayDate?.toDateString() === today.toDateString();
     
     const classNames = [
       'calendar-day',
@@ -86,38 +90,38 @@ const MonthView = ({
       tileClassName?.({ date: dayDate, view: 'month' }) || ''
     ].filter(Boolean).join(' ');
 
-    const dayEvents = events?.filter(event => 
+    const dayEvents = dayDate ? events?.filter(event => 
       event.date.toDateString() === dayDate.toDateString()
-    ) || [];
+    ) : [];
 
     return (
       <div
-        key={`${dayDate.getFullYear()}-${dayDate.getMonth()}-${dayDate.getDate()}`}
+        key={`${dayDate?.getFullYear()}-${dayDate?.getMonth()}-${dayDate?.getDate()}`}
         className={classNames}
         onClick={() => {
-          if (!isDisabled) {
+          if (!isDisabled && dayDate) {
             onDateSelect(dayDate);
             if (selectOnEventClick && dayEvents.length > 0) {
               dayEvents.forEach(event => onClickEvent?.(event, dayDate));
             }
           }
         }}
-        onMouseEnter={() => !isDisabled && onHover?.(dayDate)}
+        onMouseEnter={() => !isDisabled && dayDate && onHover?.(dayDate)}
         onMouseLeave={() => onClearHover?.()}
         role="button"
-        tabIndex={isDisabled ? -1 : 0}
-        aria-label={`Select ${dayDate.toLocaleDateString(locale)}`}
+        tabIndex={isDisabled || !dayDate ? -1 : 0}
+        aria-label={dayDate ? `Select ${dayDate.toLocaleDateString(locale)}` : ''}
         aria-disabled={isDisabled}
         aria-pressed={Array.isArray(value) ? 
-          value.some(v => v?.toDateString() === dayDate.toDateString()) :
-          value?.toDateString() === dayDate.toDateString()
+          value.some(v => v?.toDateString() === dayDate?.toDateString()) :
+          value?.toDateString() === dayDate?.toDateString()
         }
       >
         <span className="day-number">
-          {formatDay ? formatDay(dayDate, locale) : dayDate.getDate()}
+          {dayDate ? (formatDay ? formatDay(dayDate, locale) : dayDate.getDate()) : ''}
         </span>
         
-        {dayEvents.length > 0 && (
+        {dayEvents.length > 0 && dayDate && (
           <div className="day-events">
             {dayEvents.slice(0, 3).map((event, eventIndex) => (
               <div

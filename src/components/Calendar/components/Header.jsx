@@ -71,6 +71,13 @@ const Header = ({
     onChange(newDate);
   };
 
+  const handleYearChange = (e) => {
+    const newYear = parseInt(e.target.value, 10);
+    const newDate = new Date(date);
+    newDate.setFullYear(newYear);
+    onChange(newDate);
+  };
+
   const getHeaderLabel = () => {
     if (navigationLabel) {
       return navigationLabel({ date, view, locale });
@@ -88,6 +95,15 @@ const Header = ({
     }
     return '';
   };
+
+  // Generate year options (e.g., 10 years before and after the current year)
+  const currentYear = date.getFullYear();
+  const yearOptions = [];
+  for (let year = currentYear - 10; year <= currentYear + 10; year++) {
+    if (!isYearDisabled || !isYearDisabled(new Date(year, 0, 1))) {
+      yearOptions.push(year);
+    }
+  }
 
   return (
     <div className="calendar-header" style={style}>
@@ -138,6 +154,18 @@ const Header = ({
             {next2Label || <ChevronsRight size={16} />}
           </button>
         )}
+        <select
+          className="year-dropdown"
+          value={date.getFullYear()}
+          onChange={handleYearChange}
+          aria-label="Select year"
+        >
+          {yearOptions.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );

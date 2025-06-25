@@ -1,12 +1,12 @@
-export const getDaysInMonth = (date, weekStartDay = 1, calendarType = 'gregorian', showFixedNumberOfWeeks = false, showNeighboringMonth = true) => {
+export const getDaysInMonth = (date, weekStartDay = 0, calendarType = 'gregorian', showFixedNumberOfWeeks = false, showNeighboringMonth = true) => {
   const year = date.getFullYear();
   const month = date.getMonth();
   
-  // Get first day of the month
+  // Get first and last day of the month
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
   
-  // Adjust first day based on week start day
+  // Calculate the first day of the week offset
   const firstDayOfWeek = (firstDay.getDay() - weekStartDay + 7) % 7;
   
   const days = [];
@@ -15,8 +15,9 @@ export const getDaysInMonth = (date, weekStartDay = 1, calendarType = 'gregorian
   if (showNeighboringMonth && firstDayOfWeek > 0) {
     const prevMonth = new Date(year, month - 1, 0);
     for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+      const prevDate = new Date(year, month - 1, prevMonth.getDate() - i);
       days.push({
-        date: new Date(year, month - 1, prevMonth.getDate() - i),
+        date: prevDate,
         isCurrentMonth: false,
         isPreviousMonth: true,
         isNextMonth: false
@@ -35,7 +36,7 @@ export const getDaysInMonth = (date, weekStartDay = 1, calendarType = 'gregorian
   }
   
   // Add next month days to complete the grid
-  if (showNeighboringMonth) {
+  if (showNeighboringMonth || showFixedNumberOfWeeks) {
     const totalCells = showFixedNumberOfWeeks ? 42 : Math.ceil(days.length / 7) * 7;
     const remainingCells = totalCells - days.length;
     
@@ -45,6 +46,18 @@ export const getDaysInMonth = (date, weekStartDay = 1, calendarType = 'gregorian
         isCurrentMonth: false,
         isPreviousMonth: false,
         isNextMonth: true
+      });
+    }
+  } else if (showFixedNumberOfWeeks && days.length < 42) {
+    // Fill with placeholders if fixed weeks are enabled but neighboring months are off
+    const remainingCells = 42 - days.length;
+    for (let i = 0; i < remainingCells; i++) {
+      days.push({
+        date: null,
+        isCurrentMonth: false,
+        isPreviousMonth: false,
+        isNextMonth: false,
+        isPlaceholder: true
       });
     }
   }

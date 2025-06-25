@@ -15,7 +15,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(135deg, #0f172a, #1e293b);
-  /* navy to dark slate */
   color: #e0e7ff;
   min-height: 100vh;
 }
@@ -169,7 +168,6 @@ body {
   border: none;
 }
 
-
 /* Comprehensive Demo Layout */
 .comprehensive-demo .demo-content {
   padding: 0;
@@ -267,6 +265,14 @@ body {
 
 .config-field {
   margin-bottom: 1rem;
+  background: #2a3649;
+  padding: 0.75rem;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.config-field:hover {
+  background: #334155;
 }
 
 .config-field label {
@@ -274,7 +280,7 @@ body {
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #f8fafc;
+  color: #f1f5f9;
 }
 
 .config-field input[type="checkbox"] {
@@ -284,11 +290,22 @@ body {
 .config-field select,
 .config-field input[type="number"] {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #d1d5db;
+  padding: 0.5rem 2rem 0.5rem 0.5rem; 
+  border: 1px solid #475569;
   border-radius: 6px;
   font-size: 0.875rem;
-  background: none;
+  background: #2a3649;
+  color: #e2e8f0;
+  appearance: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.config-field select {
+  background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23e2e8f0" viewBox="0 0 16 16"%3E%3Cpath d="M8 12L2 6h12z"/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px;
 }
 
 .config-field select:focus,
@@ -371,7 +388,7 @@ body {
 }
 
 .add-event-form {
-  background: rgba(0, 0, 0, 0.02);
+  background: #2a3649;
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -390,10 +407,18 @@ body {
 .event-title-input {
   flex: 1;
   padding: 0.5rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid #475569;
   border-radius: 6px;
   font-size: 0.875rem;
-  background: none;
+  background: #2a3649;
+  color: #e2e8f0;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-title-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
 .cancel-btn {
@@ -410,31 +435,53 @@ body {
 
 .event-type-select {
   flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #d1d5db;
+  padding: 0.5rem 2rem 0.5rem 0.5rem;
+  border: 1px solid #475569;
   border-radius: 6px;
   font-size: 0.875rem;
-  background: none;
+  background: #2a3649;
+  color: #e2e8f0;
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23e2e8f0" viewBox="0 0 16 16"%3E%3Cpath d="M8 12L2 6h12z"/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-type-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
 .event-color-input {
   width: 40px;
   height: 32px;
-  border: 1px solid #d1d5db;
+  border: 1px solid #475569;
   border-radius: 6px;
   cursor: pointer;
+  background: #2a3649;
 }
 
 .event-time-input,
 .event-description-input {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid #475569;
   border-radius: 6px;
   font-size: 0.875rem;
   margin-bottom: 0.75rem;
-  background: none;
-  color: #f8fafc;
+  background: #2a3649;
+  color: #e2e8f0;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-time-input:focus,
+.event-description-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
 .save-event-btn {
@@ -560,7 +607,7 @@ body {
 }
 
 .event-summary h4 {
-  margin: 0 0 0.75rem 0;
+  margin: 0 0 0.75rem;
   font-size: 0.875rem;
   color: #f8fafc;
 }
@@ -608,18 +655,18 @@ body {
 /* Responsive Design */
 @media (max-width: 1200px) {
   .demo-layout {
-    grid-template-columns: 1fr 350px;
+    grid-template-columns: auto 350px;
   }
 
   .showcase-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto;
   }
 }
 
 @media (max-width: 968px) {
   .demo-layout {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
   }
 
   .controls-section {
