@@ -1,4 +1,3 @@
-/* Base Calendar Styles */
 .calendar {
   --background-color: #f7fafc;
   --text-color: #2d3748;
@@ -17,7 +16,7 @@
   color: var(--text-color);
   border-radius: 12px;
   padding: 20px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
   max-width: 100%;
@@ -40,9 +39,7 @@
 
 .calendar.double-view {
   width: auto;
-  min-width: 650px;
-  display: flex;
-  gap: 20px;
+  min-width: 600px;
 }
 
 /* Header Styles */
@@ -52,9 +49,7 @@
   align-items: center;
   margin-bottom: 20px;
   padding: 0 10px;
-  background-color: var(--header-background);
-  border-radius: 8px;
-  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .navigation-buttons {
@@ -73,23 +68,22 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  font-size: 16px;
 }
 
 .nav-button:hover {
   background-color: var(--hover-color);
-  color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 .nav-button:focus {
-  outline: 2px solid var(--primary-color);
+  outline: none;
   outline-offset: 2px;
 }
 
 .header-label {
   display: flex;
+  gap: 20px;
   align-items: center;
-  gap: 12px;
 }
 
 .header-button {
@@ -115,7 +109,7 @@
 
 .year-dropdown {
   padding: 0.5rem 1rem;
-  border: 1px solid var(--border-color);
+  border: none;
   border-radius: 6px;
   background-color: var(--background-color);
   color: var(--text-color);
@@ -147,53 +141,53 @@
 .month-grid {
   flex: 1;
   min-width: 280px;
-  background-color: var(--background-color);
-  border-radius: 8px;
-  overflow: hidden;
 }
 
 .weekday-header {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(7, 1fr);
   gap: 1px;
-  background-color: var(--header-background);
-  padding: 8px 0;
+  margin-bottom: 8px;
+}
+
+.month-grid.secondary .weekday-header {
+  grid-template-columns: repeat(7, 1fr);
 }
 
 .weekday-header.with-week-numbers {
-  grid-template-columns: 40px repeat(7, minmax(0, 1fr));
+  grid-template-columns: 40px repeat(7, 1fr);
 }
 
 .week-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 8px 4px;
+  text-align: center;
   font-size: 12px;
   font-weight: 600;
   color: var(--disabled-color);
-  padding: 4px;
 }
 
 .weekday {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 8px 4px;
+  text-align: center;
   font-size: 14px;
   font-weight: 600;
   color: var(--text-color);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .days-grid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1px;
-  background-color: none;
 }
 
 .week-row {
-  display: contents; /* Allows grid children to define layout */
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+}
+
+.week-row.with-week-numbers {
+  grid-template-columns: 40px repeat(7, 1fr);
 }
 
 .week-number {
@@ -203,7 +197,7 @@
   font-size: 12px;
   color: var(--disabled-color);
   cursor: pointer;
-  padding: 8px;
+  padding: 4px;
   border-radius: 4px;
   transition: all 0.2s ease;
 }
@@ -214,7 +208,7 @@
 
 .calendar-day {
   position: relative;
-  height: 50px;
+  min-height: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -223,8 +217,8 @@
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
-  background-color: var(--background-color);
   border: 1px solid transparent;
+  background-color: transparent;
 }
 
 .calendar-day:hover {
@@ -262,14 +256,12 @@
   background-color: var(--today-color);
   color: white;
   font-weight: 600;
-  border-color: var(--today-color);
 }
 
 .calendar-day.selected {
   background-color: var(--selected-color);
   color: white;
   font-weight: 600;
-  border-color: var(--selected-color);
 }
 
 .calendar-day.selected-start,
@@ -277,7 +269,6 @@
   background-color: var(--selected-color);
   color: white;
   font-weight: 600;
-  border-color: var(--selected-color);
 }
 
 .calendar-day.in-range {
@@ -348,7 +339,6 @@
 /* Year View Styles */
 .year-view {
   text-align: center;
-  padding: 20px;
 }
 
 .year-header {
@@ -383,13 +373,12 @@
   background: transparent;
   border: 1px solid var(--border-color);
   color: var(--text-color);
-  padding: 12px;
+  padding: 16px 8px;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 14px;
   font-weight: 500;
-  text-align: center;
 }
 
 .month-button:hover {
@@ -417,7 +406,6 @@
 /* Decade View Styles */
 .decade-view {
   text-align: center;
-  padding: 20px;
 }
 
 .decade-header {
@@ -452,13 +440,12 @@
   background: transparent;
   border: 1px solid var(--border-color);
   color: var(--text-color);
-  padding: 12px;
+  padding: 16px 8px;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 14px;
   font-weight: 500;
-  text-align: center;
 }
 
 .year-button:hover {
@@ -490,7 +477,6 @@
 /* Day View Styles */
 .day-view {
   text-align: left;
-  padding: 20px;
 }
 
 .day-header {
@@ -619,11 +605,15 @@
   border-top: 1px solid var(--border-color);
 }
 
+/* Custom Theme Support */
+/* .calendar.custom-theme {
+  
+} */
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .calendar.double-view {
     min-width: auto;
-    flex-direction: column;
   }
   
   .month-view {
@@ -646,7 +636,7 @@
   }
   
   .calendar-day {
-    height: 45px;
+    min-height: 35px;
     font-size: 13px;
   }
 }
@@ -672,11 +662,6 @@
   
   .nav-button {
     padding: 6px;
-  }
-  
-  .calendar-day {
-    height: 40px;
-    font-size: 12px;
   }
 }
 

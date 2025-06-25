@@ -30,7 +30,7 @@ function App() {
   const [events, setEvents] = useState([
     {
       id: 1,
-      date: new Date(2025, 0, 15),
+      date: new Date(2025, 5, 15),
       title: 'Team Meeting',
       type: 'meeting',
       color: '#ff6b6b',
@@ -39,7 +39,7 @@ function App() {
     },
     {
       id: 2,
-      date: new Date(2025, 0, 18),
+      date: new Date(2025, 6, 18),
       title: 'Project Deadline',
       type: 'deadline',
       color: '#feca57',
@@ -48,7 +48,7 @@ function App() {
     },
     {
       id: 3,
-      date: new Date(2025, 0, 20),
+      date: new Date(2025, 7, 20),
       title: 'Doctor Appointment',
       type: 'appointment',
       color: '#ff9ff3',
@@ -57,7 +57,7 @@ function App() {
     },
     {
       id: 4,
-      date: new Date(2025, 0, 25),
+      date: new Date(2025, 4, 25),
       title: 'Weekend Getaway',
       type: 'personal',
       color: '#4ecdc4',
@@ -68,7 +68,7 @@ function App() {
 
   // Holiday dates
   const holidayDates = useMemo(() => [
-    new Date(2025, 0, 1), 
+    new Date(2025, 7, 1), 
     new Date(2025, 1, 14), 
     new Date(2025, 2, 4), 
     new Date(2025, 11, 25), 

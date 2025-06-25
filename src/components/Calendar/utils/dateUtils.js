@@ -1,3 +1,4 @@
+// Updated getDaysInMonth function
 export const getDaysInMonth = (date, weekStartDay = 0, calendarType = 'gregorian', showFixedNumberOfWeeks = false, showNeighboringMonth = true) => {
   const year = date.getFullYear();
   const month = date.getMonth();
@@ -11,11 +12,11 @@ export const getDaysInMonth = (date, weekStartDay = 0, calendarType = 'gregorian
   
   const days = [];
   
-  // Add previous month days if showNeighboringMonth is true
+  // Add previous month days
   if (showNeighboringMonth && firstDayOfWeek > 0) {
-    const prevMonth = new Date(year, month - 1, 0);
-    for (let i = firstDayOfWeek - 1; i >= 0; i--) {
-      const prevDate = new Date(year, month - 1, prevMonth.getDate() - i);
+    const prevMonthLastDate = new Date(year, month, 0).getDate();
+    for (let i = firstDayOfWeek; i > 0; i--) {
+      const prevDate = new Date(year, month - 1, prevMonthLastDate - i + 1);
       days.push({
         date: prevDate,
         isCurrentMonth: false,
@@ -35,11 +36,11 @@ export const getDaysInMonth = (date, weekStartDay = 0, calendarType = 'gregorian
     });
   }
   
-  // Add next month days to complete the grid
-  if (showNeighboringMonth || showFixedNumberOfWeeks) {
-    const totalCells = showFixedNumberOfWeeks ? 42 : Math.ceil(days.length / 7) * 7;
-    const remainingCells = totalCells - days.length;
-    
+  // Add next month days
+  const totalCells = showFixedNumberOfWeeks ? 42 : Math.ceil((days.length + firstDayOfWeek) / 7) * 7;
+  const remainingCells = totalCells - days.length;
+  
+  if (showNeighboringMonth && remainingCells > 0) {
     for (let day = 1; day <= remainingCells; day++) {
       days.push({
         date: new Date(year, month + 1, day),
@@ -48,23 +49,10 @@ export const getDaysInMonth = (date, weekStartDay = 0, calendarType = 'gregorian
         isNextMonth: true
       });
     }
-  } else if (showFixedNumberOfWeeks && days.length < 42) {
-    // Fill with placeholders if fixed weeks are enabled but neighboring months are off
-    const remainingCells = 42 - days.length;
-    for (let i = 0; i < remainingCells; i++) {
-      days.push({
-        date: null,
-        isCurrentMonth: false,
-        isPreviousMonth: false,
-        isNextMonth: false,
-        isPlaceholder: true
-      });
-    }
   }
   
   return days;
 };
-
 export const isValidDate = (date) => {
   return date instanceof Date && !isNaN(date.getTime());
 };
